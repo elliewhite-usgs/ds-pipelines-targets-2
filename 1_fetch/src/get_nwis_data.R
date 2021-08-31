@@ -1,10 +1,10 @@
 
-download_nwis_data <- function(site_nums = c("01427207", "01432160", "01435000", "01436690", "01466500")){
+download_nwis_data <- function(site_nums){
   
   # create the file names that are needed for download_nwis_site_data
   # tempdir() creates a temporary directory that is wiped out when you start a new R session; 
   # replace tempdir() with "1_fetch/out" or another desired folder if you want to retain the download
-  download_files <- file.path(tempdir(), paste0('nwis_', site_nums, '_data.csv'))
+  download_files <- file.path("1_fetch/tmp/", paste0('nwis_', site_nums, '_data.csv'))
   data_out <- data.frame()
   # loop through files to download 
   for (download_file in download_files){
@@ -25,7 +25,6 @@ nwis_site_info <- function(fileout, site_data){
 
 
 download_nwis_site_data <- function(filepath, parameterCd = '00010', startDate="2014-05-01", endDate="2015-05-01"){
-  
   # filepaths look something like directory/nwis_01432160_data.csv,
   # remove the directory with basename() and extract the 01432160 with the regular expression match
   site_num <- basename(filepath) %>% 
