@@ -1,5 +1,4 @@
 process_data <- function(filepath){
-  browser()
   nwis_data <- read_csv(file = filepath)
   nwis_data_clean <- nwis_data %>% 
     rename(water_temperature = X_00010_00000) %>% 
