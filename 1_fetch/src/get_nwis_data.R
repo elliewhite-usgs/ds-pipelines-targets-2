@@ -24,7 +24,6 @@ nwis_site_info <- function(fileout, site_data_filein){
   return(fileout)
 }
 
-
 download_nwis_site_data <- function(filepath, parameterCd = '00010', startDate="2014-05-01", endDate="2015-05-01"){
   # filepaths look something like directory/nwis_01432160_data.csv,
   # remove the directory with basename() and extract the 01432160 with the regular expression match
@@ -46,3 +45,12 @@ download_nwis_site_data <- function(filepath, parameterCd = '00010', startDate="
   return(filepath)
 }
 
+combine_nwis_site_data <- function(files_in, file_out){
+  ts_list <- list()
+  for (f in files_in){
+    ts_list[[f]] <- read.csv(f, colClasses = c(rep("character", 3), "numeric", rep("character", 2)))
+  }
+  ts_df <- do.call("rbind", ts_list)
+  write.csv(ts_df, file = file_out, row.names=FALSE)
+  return(file_out)
+}
