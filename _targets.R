@@ -31,7 +31,6 @@ p2_targets_list <- list(
   tar_target(site_data_styled_2, style_data(site_data_annotated_2)),
   tar_target(site_data_styled_3, style_data(site_data_annotated_3)),
   tar_target(site_data_styled_4, style_data(site_data_annotated_4))
-
 )
 
 p3_targets_list <- list(
