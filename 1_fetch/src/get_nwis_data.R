@@ -1,6 +1,4 @@
-
 download_nwis_data <- function(site_nums){
-  
   # create the file names that are needed for download_nwis_site_data
   # tempdir() creates a temporary directory that is wiped out when you start a new R session; 
   # replace tempdir() with "1_fetch/out" or another desired folder if you want to retain the download
@@ -14,14 +12,6 @@ download_nwis_data <- function(site_nums){
     data_out <- bind_rows(data_out, these_data)
   }
   return(data_out)
-}
-
-nwis_site_info <- function(fileout, site_data_filein){
-  site_data <- read.csv(site_data_filein, colClasses = c(rep("character", 3), "numeric", rep("character", 2)))
-  site_no <- unique(site_data$site_no)
-  site_info <- dataRetrieval::readNWISsite(site_no)
-  write_csv(site_info, fileout)
-  return(fileout)
 }
 
 download_nwis_site_data <- function(filepath, parameterCd = '00010', startDate="2014-05-01", endDate="2015-05-01"){
@@ -45,12 +35,18 @@ download_nwis_site_data <- function(filepath, parameterCd = '00010', startDate="
   return(filepath)
 }
 
-combine_nwis_site_data <- function(files_in, file_out){
+combine_nwis_site_data <- function(files_in){
   ts_list <- list()
   for (f in files_in){
     ts_list[[f]] <- read.csv(f, colClasses = c(rep("character", 3), "numeric", rep("character", 2)))
   }
   ts_df <- do.call("rbind", ts_list)
-  write.csv(ts_df, file = file_out, row.names=FALSE)
-  return(file_out)
+  return(ts_df)
 }
+
+nwis_site_info <- function(site_data){
+  site_no <- unique(site_data$site_no)
+  site_info <- dataRetrieval::readNWISsite(site_no)
+  return(site_info)
+}
+
